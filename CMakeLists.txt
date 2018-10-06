@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.12)
+project(myproject)
+set(CMAKE_CXX_STANDARD 14)
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ../bin )
+link_directories(../3thparty)
+add_executable(myproject source/main.cpp source/Package/Package.cpp source/Package/Package.h source/Package/PackageController.cpp source/Package/PackageController.h)
