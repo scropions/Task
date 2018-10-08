@@ -4,10 +4,26 @@
 
 
 #include "Package.h"
-#include <vector>
 #include <sstream>
+#include <fstream>
 class PackageController {
 private:
+    /*================================
+     *============Function============
+     * ===============================
+     */
+    template<class Archive>
+    void save(Archive & ar, const unsigned int version) const
+    {
+        ar & lst;
+    }
+
+    template<class Archive>
+    void load(Archive & ar, const unsigned int version)
+    {
+        ar & lst;
+    }
+    BOOST_SERIALIZATION_SPLIT_MEMBER()
     std::vector<std::string> split(const std::string& s, char delimiter)
     {
         std::vector<std::string> tokens;
@@ -19,16 +35,21 @@ private:
         }
         return tokens;
     }
+    /*================================
+     *============Variable============
+     * ===============================
+     */
     std::vector<std::shared_ptr<Package>> lst;
     std::shared_ptr<Package> findPackage(std::string name);
-    std::shared_ptr<Package> findPackage(std::shared_ptr<Package> pckg, std::string tmp_name);
+    std::shared_ptr<Package> findPackage(std::vector<std::shared_ptr<Package>> pckg, std::string tmp_name);
+    friend class boost::serialization::access;
 
 public:
     PackageController()
-    {
-    }
+    = default;
 
     void add(std::string name);
     void remove(std::string name);
-    void output();
+    void output(std::string name);
+    void output(std::vector<std::shared_ptr<Package>> packages);
 };
